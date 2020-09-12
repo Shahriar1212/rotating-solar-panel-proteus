@@ -1,0 +1,43 @@
+%\documentclass[12pt]{article}
+\documentclass[14pt,a4paper]{extarticle}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+%Gummi|065|=)
+
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{makecell}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{commath}
+\usepackage{dirtytalk}
+\usepackage{listings}
+\usepackage{color}
+
+\input{arduinoLanguage.tex}    % adds the arduino language listing
+%% Define an Arduino style fore use later %%
+\lstdefinestyle{myArduino}{
+  language=Arduino,
+  %% Add other words needing highlighting below %%
+  morekeywords=[1]{},                  % [1] -> dark green
+  morekeywords=[2]{FILE_WRITE},        % [2] -> light blue
+  morekeywords=[3]{SD, File},          % [3] -> bold orange
+  morekeywords=[4]{open, exists},      % [4] -> orange
+  %% The lines below add a nifty box around the code %%
+  frame=shadowbox,
+  rulesepcolor=\color{arduinoBlue},
+}
+
+\begin{document}
+
+\input{1_titlePage}
+\input{2_objective}
+\input{3_social_values}
+\input{4_req_comp}
+\input{5_design}
+\input{6_work_pro}
+\input{7_esti_bud}
+\input{8_conclu}
+
+\end{document}

@@ -19,7 +19,7 @@ bool check_3 = false;
 bool check_4 = false;
 bool check_5 = false;
 
-int current_pos = 36;
+int current_pos = 0;
 int next_pos = 0;
 
 int value_1 = 0;
@@ -28,7 +28,7 @@ int value_3 = 0;
 int value_4 = 0;
 int value_5 = 5;
 
-int previous_pos = 36;
+int previous_pos = 0;
 
 
 
@@ -49,6 +49,14 @@ void loop() {
 //  }
 //  delay(7000);
   myFunc();
+
+//  myservo.write(45);
+//  delay(3000);
+//  myservo.write(90);
+//  delay(3000);
+//  myservo.write(145);
+//  delay(3000);
+   
 }
 
 
@@ -64,9 +72,11 @@ void myFunc(){
     Serial1.println("LDR 1 is maximum");
     if(check_1 == false){
       current_pos = previous_pos;
-      next_pos = 72;
+      next_pos = 75;
+      //rotate(75);
       if(next_pos > previous_pos){
-        rotateRight(current_pos,next_pos);  
+        rotateRight(current_pos,next_pos);
+          
       }
       else{
         rotateLeft(current_pos,next_pos);
@@ -84,12 +94,13 @@ void myFunc(){
     Serial1.println("LDR 2 is Maximum");
     if(check_2 == false){
       current_pos = previous_pos;
-      next_pos = 108;
+      next_pos = 90;
+      //rotate(90);
       if(next_pos > previous_pos){
-        rotateRight(current_pos,next_pos);  
+        //rotateRight(current_pos,next_pos);  
       }
       else{
-        rotateLeft(current_pos,next_pos);
+        //rotateLeft(current_pos,next_pos);
       }
       check_2 = true;
       check_1 = false;
@@ -103,12 +114,13 @@ void myFunc(){
     Serial1.println("LDR 3 is Maximum");
     if(check_3 == false){
       current_pos = previous_pos;
-      next_pos = 135;
+      next_pos = 45;
+      rotate(130);
       if(next_pos > previous_pos){
-        rotateRight(current_pos,next_pos);  
+        //rotateRight(current_pos,next_pos);  
       }
       else{
-        rotateLeft(current_pos,next_pos);
+        //rotateLeft(current_pos,next_pos);
       }
       check_3 = true;
       check_1 = false;
@@ -141,4 +153,8 @@ void rotateLeft(int current_pos,int next_pos){
     Serial1.println(pos);
     delay(20);                       // waits 20ms for the servo to reach the position
   }
+}
+
+void rotate(int pos){
+  myservo.write(pos);
 }

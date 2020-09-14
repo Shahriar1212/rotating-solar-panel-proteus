@@ -38,24 +38,7 @@ void setup() {
   myservo.attach(13);
 }
 void loop() {
-//  for (pos = 50; pos < 130; pos++) { // goes from 0 degrees to 360 degrees
-//    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(50);                       // waits 20ms for the servo to reach the position
-//  }
-//
-//  for (pos = 130; pos > 50; pos--) { // goes from 0 degrees to 360 degrees
-//    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(50);                       // waits 20ms for the servo to reach the position
-//  }
-//  delay(7000);
   myFunc();
-
-//  myservo.write(45);
-//  delay(3000);
-//  myservo.write(90);
-//  delay(3000);
-//  myservo.write(145);
-//  delay(3000);
    
 }
 
@@ -72,7 +55,7 @@ void myFunc(){
     Serial1.println("LDR 1 is maximum");
     if(check_1 == false){
       current_pos = previous_pos;
-      next_pos = 75;
+      next_pos = 57;
       //rotate(75);
       if(next_pos > previous_pos){
         rotateRight(current_pos,next_pos);
@@ -94,13 +77,13 @@ void myFunc(){
     Serial1.println("LDR 2 is Maximum");
     if(check_2 == false){
       current_pos = previous_pos;
-      next_pos = 90;
+      next_pos = 92;
       //rotate(90);
       if(next_pos > previous_pos){
-        //rotateRight(current_pos,next_pos);  
+        rotateRight(current_pos,next_pos);  
       }
       else{
-        //rotateLeft(current_pos,next_pos);
+        rotateLeft(current_pos,next_pos);
       }
       check_2 = true;
       check_1 = false;
@@ -114,13 +97,13 @@ void myFunc(){
     Serial1.println("LDR 3 is Maximum");
     if(check_3 == false){
       current_pos = previous_pos;
-      next_pos = 45;
-      rotate(130);
+      next_pos = 128;
+      //rotate(130);
       if(next_pos > previous_pos){
-        //rotateRight(current_pos,next_pos);  
+        rotateRight(current_pos,next_pos);  
       }
       else{
-        //rotateLeft(current_pos,next_pos);
+        rotateLeft(current_pos,next_pos);
       }
       check_3 = true;
       check_1 = false;

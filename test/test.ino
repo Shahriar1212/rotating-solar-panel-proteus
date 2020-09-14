@@ -1,4 +1,26 @@
 #include <Servo.h>
+#include <LiquidCrystal.h>
+
+#include <Keypad.h>
+
+LiquidCrystal lcd(13,12,11,10,9,8);
+
+const byte ROWS = 4; //four rows
+const byte COLS = 4; //four columns
+char keys[ROWS][COLS] = {
+  {'7','8','9','A'},
+  {'4','5','6','B'},
+  {'1','2','3','C'},
+  {'*','0','#','D'}
+};
+
+
+byte rowPins[ROWS] = {A3,A2,A1,A0}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {7,6,5,4}; //connect to the column pinouts of the keypad
+
+Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+const int lm35_pin = A8;
+
 
 Servo myservo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
@@ -7,17 +29,13 @@ int pos = 0;    // variable to store the servo position
 
 
 
-int ldr_1=A1;
-int ldr_2=A2;
-int ldr_3=A3;
-int ldr_4=A4;
-int ldr_5=A5;
+int ldr_1=A4;
+int ldr_2=A5;
+int ldr_3=A6;
 
 bool check_1 = false;
 bool check_2 = false;
 bool check_3 = false;
-bool check_4 = false;
-bool check_5 = false;
 
 int current_pos = 0;
 int next_pos = 0;
@@ -34,12 +52,43 @@ int previous_pos = 0;
 
 int maxx = 0;
 void setup() {
+
+  lcd.begin(16, 2);
+  lcd.setCursor(0,1);
+  lcd.clear();
+  lcd.print("hey bro");
+
+  
   Serial1.begin(9600);
-  myservo.attach(13);
+  myservo.attach(3);
 }
 void loop() {
   myFunc();
+
+  mode();
+  temperature();
+  
    
+}
+
+
+void mode(){
+  lcd.setCursor(2,8);
+  lcd.print("Auto");
+}
+
+void temperature(){
+  lcd.setCursor(2,0);
+  int temp_adc_val;
+  float temp_val;
+  temp_adc_val = analogRead(lm35_pin);
+  temp_val = (temp_adc_val * 4.88);
+  temp_val = (temp_val/10);
+  //lcd.clear();
+  lcd.print("Temperature : ");
+  lcd.print(temp_val);
+  
+  
 }
 
 
@@ -47,7 +96,6 @@ void myFunc(){
   value_1 = analogRead(ldr_1);
   value_2 = analogRead(ldr_2);
   value_3 = analogRead(ldr_3);
-  value_4 = analogRead(ldr_4);
 
 
   if(value_1 > value_2 && value_1 > value_3){
@@ -56,7 +104,6 @@ void myFunc(){
     if(check_1 == false){
       current_pos = previous_pos;
       next_pos = 57;
-      //rotate(75);
       if(next_pos > previous_pos){
         rotateRight(current_pos,next_pos);
           
@@ -78,7 +125,6 @@ void myFunc(){
     if(check_2 == false){
       current_pos = previous_pos;
       next_pos = 92;
-      //rotate(90);
       if(next_pos > previous_pos){
         rotateRight(current_pos,next_pos);  
       }

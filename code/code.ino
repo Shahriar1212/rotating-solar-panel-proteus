@@ -36,6 +36,8 @@ int led_3 = 24;
 int ldr_1 = A4;
 int ldr_2 = A5;
 int ldr_3 = A6;
+int charge = 52;
+int discharge = 53;
 
 bool check_1 = false;
 bool check_2 = false;
@@ -71,14 +73,26 @@ void setup() {
   pinMode(led_1, OUTPUT);
   pinMode(led_2, OUTPUT);
   pinMode(led_3, OUTPUT);
+
+  pinMode(charge, INPUT);
+  pinMode(discharge, INPUT);
 }
 void loop() {
   //lcd_demo();
 //  modeSetting();
+
+  if(discharge == HIGH){
+    lcd.clear();
+    lcd.setCursor(1,0);
+    lcd.print("charging");
+  } else{
+    lcd.clear();
+    lcd.print("discharging");
+  }
   myFunc();
   turnOnLed();
 
-  temperature();
+//  temperature();
 
 
 

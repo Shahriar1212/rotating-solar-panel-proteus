@@ -43,6 +43,9 @@ bool check_1 = false;
 bool check_2 = false;
 bool check_3 = false;
 
+bool cp = false;
+bool dp = false;
+
 int current_pos = 0;
 int next_pos = 0;
 
@@ -60,13 +63,6 @@ int maxx = 0;
 void setup() {
 
   lcd.begin(16, 2);
-  //  lcd.setCursor(0,1);
-  //  lcd.clear();
-  //  lcd.print("hey bro");
-
-
-
-
   Serial1.begin(9600);
   myservo.attach(3);
 
@@ -77,38 +73,32 @@ void setup() {
   pinMode(charge, INPUT);
   pinMode(discharge, INPUT);
 }
-void loop() {
-  //lcd_demo();
-//  modeSetting();
 
-  if(discharge == HIGH){
+void loop() {
+
+  if(digitalRead(charge) == HIGH && cp == false){
+    cp = true;
+    dp = false;
     lcd.clear();
-    lcd.setCursor(1,0);
+    lcd.setCursor(0,0);
     lcd.print("charging");
-  } else{
+  } 
+  else if(digitalRead(discharge) == HIGH && dp == false){
+    cp = false;
+    dp = true;
     lcd.clear();
     lcd.print("discharging");
   }
   myFunc();
   turnOnLed();
 
-//  temperature();
+  temperature();
 
 
 
 }
 
-void lcd_demo() {
 
-  lcd.print("Temp :");
-
-  lcd.setCursor(0, 1);
-  lcd.print("AUTO");
-
-  lcd.setCursor(7, 1);
-  lcd.print("MOIN");
-  lcd.clear();
-}
 
 
 
@@ -120,7 +110,7 @@ void temperature() {
   temp_val = (temp_adc_val * 4.88);
   temp_val = (temp_val / 10);
   //lcd.clear();
-  lcd.setCursor(0, 0);
+  lcd.setCursor(0, 1);
   lcd.print("Temp: ");
   lcd.print(temp_val);
 
@@ -167,7 +157,7 @@ void myFunc() {
 
   if (value_1 > value_2 && value_1 > value_3) {
     maxx = value_1;
-    Serial1.println("LDR 1 is maximum");
+//    Serial1.println("LDR 1 is maximum");
     if (check_1 == false) {
       current_pos = previous_pos;
       next_pos = 57;
@@ -188,7 +178,7 @@ void myFunc() {
   }
   else if (value_2 > value_1 && value_2 > value_3) {
     maxx = value_2;
-    Serial1.println("LDR 2 is Maximum");
+//    Serial1.println("LDR 2 is Maximum");
     if (check_2 == false) {
       current_pos = previous_pos;
       next_pos = 92;
@@ -207,7 +197,7 @@ void myFunc() {
 
   else if (value_3 >= value_1 && value_3 >= value_2) {
     maxx = value_3;
-    Serial1.println("LDR 3 is Maximum");
+//    Serial1.println("LDR 3 is Maximum");
     if (check_3 == false) {
       current_pos = previous_pos;
       next_pos = 128;

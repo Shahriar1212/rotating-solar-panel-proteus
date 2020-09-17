@@ -36,6 +36,7 @@ int led_3 = 24;
 int ldr_1 = A4;
 int ldr_2 = A5;
 int ldr_3 = A6;
+
 int charge = 52;
 int discharge = 53;
 
@@ -65,9 +66,26 @@ int solar_pos_3 = 128;
 bool isInAuto = true;
 bool isInManual = false;
 
-
-
 int maxx = 0;
+
+
+
+
+/// prototype
+
+void solarMode();
+void turnOnLed();
+void controlPad();
+void printSolarStatus();
+void displayChargingStatus();
+void temperature();
+void solarManual();
+void solarAuto();
+void rotateRight(int current_pos, int next_pos);
+void rotateLeft(int current_pos, int next_pos);
+void turnOnLed();
+
+
 void setup() {
 
   lcd.begin(16, 2);
@@ -82,12 +100,11 @@ void setup() {
   pinMode(discharge, INPUT);
 }
 
-void loop() {
 
+void loop() {
+  
   controlPad();
   solarMode();
-  
-
   
 }
 
@@ -96,21 +113,11 @@ void solarMode(){
     solarAuto();
   }
   else if(isInManual == true){
-    solarManual();
+//    solarManual();
   }
   turnOnLed();
 }
 
-
-void controlPad2(){
-  char c = keypad.getKey();
-  
-  if(c== '1'){
-    lcd.clear();
-    lcd.setCursor(0,0);
-    temperature();
-  }
-}
 
 void controlPad(){
   char c = keypad.getKey();
@@ -118,7 +125,7 @@ void controlPad(){
   if(c == '1'){
     displayChargingStatus();
     printSolarStatus();
-    delay(5000);
+    delay(2000);
     lcd.clear();
   } 
   else if(c == '2'){
@@ -138,16 +145,25 @@ void controlPad(){
     lcd.setCursor(0,0);
     temperature();
     printSolarStatus();
-    delay(5000);
+    delay(2000);
     lcd.clear();
   }
   else if(isInManual && c == '7'){
+    lcd.setCursor(0,1);
+    float a = myservo.read();
+//    lcd.print(a);
     myservo.write(solar_pos_1);
   }
   else if(isInManual && c == '8'){
+    lcd.setCursor(0,1);
+    float a = myservo.read();
+//    lcd.print(a);
     myservo.write(solar_pos_2);
   }
   else if(isInManual && c == '9'){
+    lcd.setCursor(0,1);
+    float a = myservo.read();
+//    lcd.print(a);
     myservo.write(solar_pos_3);
   }
 
@@ -170,18 +186,14 @@ void printSolarStatus(){
 }
 
 void displayChargingStatus(){
-  if(digitalRead(charge) == HIGH && cp == false){
-    cp = true;
-    dp = false;
+  if(digitalRead(charge) == HIGH){
     lcd.clear();
     lcd.setCursor(0,0);
-    lcd.print("charging");
+    lcd.print("CHARGING");
   } 
-  else if(digitalRead(discharge) == HIGH && dp == false){
-    cp = false;
-    dp = true;
+  else if(digitalRead(discharge) == HIGH){
     lcd.clear();
-    lcd.print("discharging");
+    lcd.print("DISCHARGING");
   }
 }
 
@@ -199,13 +211,6 @@ void temperature() {
 }
 
 
-
-
-
-
-void solarManual(){
-
-}
 
 void solarAuto() {
   value_1 = analogRead(ldr_1);
@@ -275,18 +280,18 @@ void solarAuto() {
 }
 
 void rotateRight(int current_pos, int next_pos) {
-  Serial1.println("Servo is rotating RIGHT");
-  Serial1.print("current_pos: ");
-  Serial1.println(current_pos);
+//  Serial1.println("Servo is rotating RIGHT");
+//  Serial1.print("current_pos: ");
+//  Serial1.println(current_pos);
   for (pos = current_pos; pos <= next_pos; pos++) { // goes from 0 degrees to 360 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //    delay(20);                       // waits 20ms for the servo to reach the position
   }
 }
 void rotateLeft(int current_pos, int next_pos) {
-  Serial1.println("servo is rotating LEFT");
-  Serial1.print("current_pos: ");
-  Serial1.println(current_pos);
+//  Serial1.println("servo is rotating LEFT");
+//  Serial1.print("current_pos: ");
+//  Serial1.println(current_pos);
   for (pos = current_pos; pos > next_pos; pos--) { // goes from 360 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
     //    delay(20);                       // waits 20ms for the servo to reach the position

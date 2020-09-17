@@ -58,6 +58,10 @@ int value_5 = 5;
 int previous_pos = 0;
 
 
+bool isInAuto = true;
+bool isInManual = false;
+
+
 
 int maxx = 0;
 void setup() {
@@ -76,6 +80,83 @@ void setup() {
 
 void loop() {
 
+  controlPad();
+  solarMode();
+  
+
+  
+}
+
+void solarMode(){
+  if(isInAuto == true){
+    solarAuto();
+  }
+  else if(isInManual == true){
+    solarManual();
+  }
+  turnOnLed();
+}
+
+
+void controlPad2(){
+  char c = keypad.getKey();
+  
+  if(c== '1'){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    temperature();
+  }
+}
+
+void controlPad(){
+  char c = keypad.getKey();
+
+  if(c == '1'){
+    displayChargingStatus();
+    printSolarStatus();
+    delay(5000);
+    lcd.clear();
+  } 
+  else if(c == '2'){
+    isInAuto = true;
+    isInManual = false;
+    printSolarStatus();
+    lcd.clear();
+  }
+  else if(c == '3'){
+    isInManual = true;
+    isInAuto = false;
+    printSolarStatus();
+    lcd.clear();
+  }
+  else if(c == '4'){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    temperature();
+    printSolarStatus();
+    delay(5000);
+    lcd.clear();
+  }
+
+
+   printSolarStatus();
+   c = '0';
+   lcd.setCursor(0,0);
+   lcd.print("Select Option");
+
+}
+
+void printSolarStatus(){
+  if(isInAuto){
+    lcd.setCursor(10,1);
+    lcd.print("Auto");
+  }else{
+    lcd.setCursor(10,1);
+    lcd.print("Manual");
+  }
+}
+
+void displayChargingStatus(){
   if(digitalRead(charge) == HIGH && cp == false){
     cp = true;
     dp = false;
@@ -89,67 +170,31 @@ void loop() {
     lcd.clear();
     lcd.print("discharging");
   }
-  myFunc();
-  turnOnLed();
-
-  temperature();
-
-
-
 }
 
 
-
-
-
 void temperature() {
-  //  lcd.setCursor(2,0);
+  lcd.clear();
+  lcd.setCursor(0,0);
   int temp_adc_val;
   float temp_val;
   temp_adc_val = analogRead(lm35_pin);
   temp_val = (temp_adc_val * 4.88);
   temp_val = (temp_val / 10);
-  //lcd.clear();
-  lcd.setCursor(0, 1);
   lcd.print("Temp: ");
   lcd.print(temp_val);
-
 }
 
-void modeAuto(){
+
+
+
+
+
+void solarManual(){
   
 }
-void modeManual(){
-  
-}
 
-void modeSetting() {
-  char key = keypad.getKey();
-  lcd.setCursor(0, 0);
-  lcd.print("Enter Mode: ");
-  
-  if (key == '1') {
-    modeAuto();
-    Serial.print(key);
-    lcd.print(key);
-  }
-  else if(key == '2'){
-    modeManual();
-  }
-  else{
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Wrong Mode");
-    delay(500);
-    lcd.setCursor(0,0);
-    lcd.print("1: AUTO");
-    lcd.setCursor(0,1);
-    lcd.print("2: MALUAL");
-  }
-}
-
-
-void myFunc() {
+void solarAuto() {
   value_1 = analogRead(ldr_1);
   value_2 = analogRead(ldr_2);
   value_3 = analogRead(ldr_3);

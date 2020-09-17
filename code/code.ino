@@ -57,6 +57,10 @@ int value_5 = 5;
 
 int previous_pos = 0;
 
+int solar_pos_1 = 57;
+int solar_pos_2 = 92;
+int solar_pos_3 = 128;
+
 
 bool isInAuto = true;
 bool isInManual = false;
@@ -138,13 +142,13 @@ void controlPad(){
     lcd.clear();
   }
   else if(isInManual && c == '7'){
-    myservo.write(57);
+    myservo.write(solar_pos_1);
   }
   else if(isInManual && c == '8'){
-    myservo.write(92);
+    myservo.write(solar_pos_2);
   }
   else if(isInManual && c == '9'){
-    myservo.write(128);
+    myservo.write(solar_pos_3);
   }
 
 
@@ -200,17 +204,7 @@ void temperature() {
 
 
 void solarManual(){
-//  char c = keypad.getKey();
-//
-//  if(isInManual && c == '7'){
-//    myservo.write(57);
-//  }
-//  else if(isInManual && c == '8'){
-//    myservo.write(92);
-//  }
-//  else if(isInManual && c == '9'){
-//    myservo.write(128);
-//  }
+
 }
 
 void solarAuto() {
@@ -224,7 +218,7 @@ void solarAuto() {
 //    Serial1.println("LDR 1 is maximum");
     if (check_1 == false) {
       current_pos = previous_pos;
-      next_pos = 57;
+      next_pos = solar_pos_1;
       if (next_pos > previous_pos) {
         rotateRight(current_pos, next_pos);
 
@@ -245,7 +239,7 @@ void solarAuto() {
 //    Serial1.println("LDR 2 is Maximum");
     if (check_2 == false) {
       current_pos = previous_pos;
-      next_pos = 92;
+      next_pos = solar_pos_2;
       if (next_pos > previous_pos) {
         rotateRight(current_pos, next_pos);
       }
@@ -264,7 +258,7 @@ void solarAuto() {
 //    Serial1.println("LDR 3 is Maximum");
     if (check_3 == false) {
       current_pos = previous_pos;
-      next_pos = 128;
+      next_pos = solar_pos_3;
       if (next_pos > previous_pos) {
         rotateRight(current_pos, next_pos);
       }

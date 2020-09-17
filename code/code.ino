@@ -137,6 +137,15 @@ void controlPad(){
     delay(5000);
     lcd.clear();
   }
+  else if(isInManual && c == '7'){
+    myservo.write(57);
+  }
+  else if(isInManual && c == '8'){
+    myservo.write(92);
+  }
+  else if(isInManual && c == '9'){
+    myservo.write(128);
+  }
 
 
    printSolarStatus();
@@ -191,7 +200,17 @@ void temperature() {
 
 
 void solarManual(){
-  
+//  char c = keypad.getKey();
+//
+//  if(isInManual && c == '7'){
+//    myservo.write(57);
+//  }
+//  else if(isInManual && c == '8'){
+//    myservo.write(92);
+//  }
+//  else if(isInManual && c == '9'){
+//    myservo.write(128);
+//  }
 }
 
 void solarAuto() {

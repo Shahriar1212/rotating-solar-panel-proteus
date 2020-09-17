@@ -150,18 +150,19 @@ void controlPad(){
   }
   else if(isInManual && c == '7'){
     lcd.setCursor(0,1);
+    lcd.print("Pos: 1");
     float a = myservo.read();
-//    lcd.print(a);
     myservo.write(solar_pos_1);
   }
   else if(isInManual && c == '8'){
     lcd.setCursor(0,1);
+    lcd.print("Pos: 2");
     float a = myservo.read();
-//    lcd.print(a);
     myservo.write(solar_pos_2);
   }
   else if(isInManual && c == '9'){
     lcd.setCursor(0,1);
+    lcd.print("Pos: 3");
     float a = myservo.read();
 //    lcd.print(a);
     myservo.write(solar_pos_3);

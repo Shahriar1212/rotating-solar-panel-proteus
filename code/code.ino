@@ -225,7 +225,7 @@ void solarAuto() {
     previous_pos = next_pos;
   }
   
-  else if (value_3 >= value_1 && value_3 >= value_2) {
+  else if (value_3 > value_1 && value_3 > value_2) {
     maxx = value_3;
     current_pos = previous_pos;
     next_pos = solar_pos_3;

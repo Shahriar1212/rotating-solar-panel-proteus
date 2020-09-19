@@ -68,6 +68,11 @@ bool isInManual = false; // when user press button '3', the system jumps to manu
 int maxx = 0;
 
 
+bool check_1 = false;
+bool check_2 = false;
+bool check_3 = false;
+
+
 /// prototype
 void solarMode(); // Runs both auto and manual mode
 void turnOnLed(); // Turns the LED according to the maximum LDR value
@@ -199,44 +204,65 @@ void solarAuto() {
   value_1 = analogRead(ldr_1);
   value_2 = analogRead(ldr_2);
   value_3 = analogRead(ldr_3);
+
   // check which LDR provides the max value according 
   // to the light intensity of the torch
   if (value_1 > value_2 && value_1 > value_3) {
     maxx = value_1;
-    current_pos = previous_pos; // initially prev pos is '0'
-    next_pos = solar_pos_1;
-    if (next_pos > previous_pos) {
-      rotateRight(current_pos, next_pos);
+    if (check_1 == false) {
+      current_pos = previous_pos; // initially prev pos is '0'
+      next_pos = solar_pos_1;
+      if (next_pos > previous_pos) {
+        rotateRight(current_pos, next_pos);
+
+      }
+      else {
+        rotateLeft(current_pos, next_pos);
+      }
+
+      check_1 = true;
+      check_2 = false;
+      check_3 = false;
+      previous_pos = next_pos;
     }
-    else {
-      rotateLeft(current_pos, next_pos);
-    }
+
   }
   else if (value_2 > value_1 && value_2 > value_3) {
     maxx = value_2;
-    current_pos = previous_pos;
-    next_pos = solar_pos_2;
-    if (next_pos > previous_pos) {
-      rotateRight(current_pos, next_pos);
+    if (check_2 == false) {
+      current_pos = previous_pos;
+      next_pos = solar_pos_2;
+      if (next_pos > previous_pos) {
+        rotateRight(current_pos, next_pos);
+      }
+      else {
+        rotateLeft(current_pos, next_pos);
+      }
+      check_2 = true;
+      check_1 = false;
+      check_3 = false;
+      previous_pos = next_pos;
     }
-    else {
-      rotateLeft(current_pos, next_pos);
-    }
-    previous_pos = next_pos;
   }
-  
-  else if (value_3 > value_1 && value_3 > value_2) {
+
+  else if (value_3 >= value_1 && value_3 >= value_2) {
     maxx = value_3;
-    current_pos = previous_pos;
-    next_pos = solar_pos_3;
-    if (next_pos > previous_pos) {
-      rotateRight(current_pos, next_pos);
+    if (check_3 == false) {
+      current_pos = previous_pos;
+      next_pos = solar_pos_3;
+      if (next_pos > previous_pos) {
+        rotateRight(current_pos, next_pos);
+      }
+      else {
+        rotateLeft(current_pos, next_pos);
+      }
+      check_3 = true;
+      check_1 = false;
+      check_2 = false;
+      previous_pos = next_pos;
     }
-    else {
-      rotateLeft(current_pos, next_pos);
-    }
-    previous_pos = next_pos;
   }
+
 }
 // rotating clockwise
 void rotateRight(int current_pos, int next_pos) {
